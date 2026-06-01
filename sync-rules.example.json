@@ -1,0 +1,69 @@
+[
+  {
+    "collectionId": "customers",
+    "enabled": true,
+    "description": "Customer record → Zendesk: sync selected fields to the matching Zendesk user",
+    "source": {
+      "lookupFieldCode": "externalCustomerId"
+    },
+    "destination": {
+      "type": "zendesk",
+      "lookupFieldKey": "external_customer_id"
+    },
+    "fieldMapping": [
+      { "from": "status", "to": "customer_status" },
+      { "from": "plan", "to": "customer_plan" },
+      { "from": "renewalDate", "to": "renewal_date" }
+    ],
+    "writeBack": {
+      "enabled": true,
+      "userIdField": "zendeskUserId",
+      "userUrlField": "zendeskUserUrl"
+    }
+  },
+  {
+    "collectionId": "accounts",
+    "enabled": true,
+    "description": "Account record → HubSpot: sync contact properties when a record changes",
+    "source": {
+      "lookupFieldCode": "email"
+    },
+    "destination": {
+      "type": "hubspot",
+      "lookupFieldKey": "email"
+    },
+    "fieldMapping": [
+      { "from": "companyName", "to": "company" },
+      { "from": "planType", "to": "plan_type" },
+      { "from": "lifecycleStatus", "to": "lifecycle_status" }
+    ],
+    "writeBack": {
+      "enabled": true,
+      "userIdField": "hubspotContactId",
+      "userUrlField": "hubspotContactUrl"
+    }
+  },
+  {
+    "collectionId": "requests",
+    "enabled": true,
+    "description": "Request record → Slack: post a notification when a record is updated",
+    "source": {
+      "lookupFieldCode": "requestId"
+    },
+    "destination": {
+      "type": "slack",
+      "lookupFieldKey": ""
+    },
+    "fieldMapping": [
+      { "from": "title", "to": "Title" },
+      { "from": "status", "to": "Status" },
+      { "from": "assignee", "to": "Owner" },
+      { "from": "deadline", "to": "Deadline" }
+    ],
+    "slackConfig": {
+      "channel": "#requests",
+      "messagePrefix": "Request updated",
+      "recordUrlField": "recordUrl"
+    }
+  }
+]
